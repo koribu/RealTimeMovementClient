@@ -9,10 +9,11 @@ public class GameLogic : MonoBehaviour
     Vector2 characterPositionInPercent;
     Vector2 characterVelocityInPercent;
     const float CharacterSpeed = 0.25f;
-    const float HalfCharacterSpeed = 0.125f;
+    float DiagonalCharacterSpeed;
 
     void Start()
     {
+        DiagonalCharacterSpeed = Mathf.Sqrt(CharacterSpeed * CharacterSpeed + CharacterSpeed * CharacterSpeed) /2f;
         NetworkedClientProcessing.SetGameLogic(this);
 
         Sprite circleTexture = Resources.Load<Sprite>("Circle");
@@ -32,23 +33,23 @@ public class GameLogic : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
             {
-                characterVelocityInPercent.x = HalfCharacterSpeed;
-                characterVelocityInPercent.y = HalfCharacterSpeed;
+                characterVelocityInPercent.x = DiagonalCharacterSpeed;
+                characterVelocityInPercent.y = DiagonalCharacterSpeed;
             }
             else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
             {
-                characterVelocityInPercent.x = -HalfCharacterSpeed;
-                characterVelocityInPercent.y = HalfCharacterSpeed;
+                characterVelocityInPercent.x = -DiagonalCharacterSpeed;
+                characterVelocityInPercent.y = DiagonalCharacterSpeed;
             }
             else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
             {
-                characterVelocityInPercent.x = HalfCharacterSpeed;
-                characterVelocityInPercent.y = -HalfCharacterSpeed;
+                characterVelocityInPercent.x = DiagonalCharacterSpeed;
+                characterVelocityInPercent.y = -DiagonalCharacterSpeed;
             }
             else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
             {
-                characterVelocityInPercent.x = -HalfCharacterSpeed;
-                characterVelocityInPercent.y = -HalfCharacterSpeed;
+                characterVelocityInPercent.x = -DiagonalCharacterSpeed;
+                characterVelocityInPercent.y = -DiagonalCharacterSpeed;
             }
             else if (Input.GetKey(KeyCode.D))
                 characterVelocityInPercent.x = CharacterSpeed;

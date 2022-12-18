@@ -131,5 +131,11 @@ public class GameLogic : MonoBehaviour
         return character;
     }
 
+    public void DeletePlayer(int ID)
+    {
+        Destroy(_players[ID].avatar);
+        _players.Remove(ID);
+    }
+
 }
 

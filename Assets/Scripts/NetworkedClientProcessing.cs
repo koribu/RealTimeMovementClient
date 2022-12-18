@@ -28,8 +28,12 @@ static public class NetworkedClientProcessing
         }
         else if (signifier == ServerToClientSignifiers.CreateExistOtherCharacter)
         {
-            Vector2 pos = new Vector2(int.Parse(csv[1]), int.Parse(csv[2]));
+            Vector2 pos = new Vector2(float.Parse(csv[1]), float.Parse(csv[2]));
             gameLogic.AddCharacterIntoGame( pos, int.Parse(csv[3]));
+        }
+        else if (signifier == ServerToClientSignifiers.DeletePlayerCharacter)
+        {
+            gameLogic.DeletePlayer(int.Parse(csv[1]));
         }
 
         //gameLogic.DoSomething();
@@ -107,6 +111,7 @@ static public class ServerToClientSignifiers
     public const int CreatePlayerCharacter = 2;
     public const int CreateNewOtherCharacter = 3;
     public const int CreateExistOtherCharacter = 4;
+    public const int DeletePlayerCharacter = 5;
 }
 
 #endregion

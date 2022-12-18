@@ -69,7 +69,8 @@ public class GameLogic : MonoBehaviour
         }
         /* characterPositionInPercent += (characterVelocityInPercent * Time.deltaTime);*/
 
-        NetworkedClientProcessing.SendNewPositionToServer(characterVelocityInPercent);
+        if (characterVelocityInPercent != Vector2.zero)
+            NetworkedClientProcessing.SendNewPositionToServer(characterVelocityInPercent);
     }
 
     public void ApplyMovementFromServer(Vector2 positionChange, int characterID)
@@ -100,13 +101,13 @@ public class GameLogic : MonoBehaviour
     {
         playerID = MyID;
 
-        AddCharacterIntoGame(MyID, Vector2.zero);
+        AddCharacterIntoGame(Vector2.zero, MyID);
         _players[MyID].avatar.GetComponent<SpriteRenderer>().color = Color.green;
 
 
     }
 
-    public void AddCharacterIntoGame(int ID, Vector2 position)
+    public void AddCharacterIntoGame( Vector2 position, int ID)
     {
         Player other = new Player();
         other.posInPercent = position;

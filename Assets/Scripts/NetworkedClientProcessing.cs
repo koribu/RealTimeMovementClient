@@ -24,12 +24,12 @@ static public class NetworkedClientProcessing
          }
         else if (signifier == ServerToClientSignifiers.CreateNewOtherCharacter)
         {
-            gameLogic.AddCharacterIntoGame(int.Parse(csv[1]), Vector2.zero);
+            gameLogic.AddCharacterIntoGame(Vector2.zero, int.Parse(csv[1]));
         }
         else if (signifier == ServerToClientSignifiers.CreateExistOtherCharacter)
         {
             Vector2 pos = new Vector2(int.Parse(csv[1]), int.Parse(csv[2]));
-            gameLogic.AddCharacterIntoGame(int.Parse(csv[3]), pos);
+            gameLogic.AddCharacterIntoGame( pos, int.Parse(csv[3]));
         }
 
         //gameLogic.DoSomething();

@@ -13,14 +13,24 @@ static public class NetworkedClientProcessing
         string[] csv = msg.Split(',');
         int signifier = int.Parse(csv[0]);
 
-        // if (signifier == ServerToClientSignifiers.asd)
-        // {
-
-        // }
-        // else if (signifier == ServerToClientSignifiers.asd)
-        // {
-
-        // }
+         if (signifier == ServerToClientSignifiers.UpdatePlayersWithPositionChange)
+         {
+            Vector2 positionChange = new Vector2(float.Parse(csv[1]), float.Parse(csv[2]));
+            gameLogic.ApplyMovementFromServer(positionChange, int.Parse(csv[3]));
+         }
+         else if (signifier == ServerToClientSignifiers.CreatePlayerCharacter)
+         {
+            gameLogic.AddMyPlayerIntoGame(int.Parse(csv[1])) ;
+         }
+        else if (signifier == ServerToClientSignifiers.CreateNewOtherCharacter)
+        {
+            gameLogic.AddCharacterIntoGame(int.Parse(csv[1]), Vector2.zero);
+        }
+        else if (signifier == ServerToClientSignifiers.CreateExistOtherCharacter)
+        {
+            Vector2 pos = new Vector2(int.Parse(csv[1]), int.Parse(csv[2]));
+            gameLogic.AddCharacterIntoGame(int.Parse(csv[3]), pos);
+        }
 
         //gameLogic.DoSomething();
 
@@ -29,6 +39,13 @@ static public class NetworkedClientProcessing
     static public void SendMessageToServer(string msg)
     {
         networkedClient.SendMessageToServer(msg);
+    }
+
+    static public void SendNewPositionToServer(Vector2 pos)
+    {
+        string msg = pos.x + "," + pos.y;
+        msg = ClientToServerSignifiers.SendPositionChangeSignifier + "," + msg;
+        SendMessageToServer(msg);
     }
 
     #endregion
@@ -81,12 +98,15 @@ static public class NetworkedClientProcessing
 #region Protocol Signifiers
 static public class ClientToServerSignifiers
 {
-    public const int asd = 1;
+    public const int SendPositionChangeSignifier = 1;
 }
 
 static public class ServerToClientSignifiers
 {
-    public const int asd = 1;
+    public const int UpdatePlayersWithPositionChange = 1;
+    public const int CreatePlayerCharacter = 2;
+    public const int CreateNewOtherCharacter = 3;
+    public const int CreateExistOtherCharacter = 4;
 }
 
 #endregion

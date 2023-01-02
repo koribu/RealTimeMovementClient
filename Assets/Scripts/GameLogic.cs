@@ -9,8 +9,8 @@ public class GameLogic : MonoBehaviour
 
     int playerID;
 
-    Vector2 characterPositionInPercent;
     Vector2 characterVelocityInPercent;
+    Vector2 currentCharacterVelocityInPercent;
     const float CharacterSpeed = 0.25f;
     float DiagonalCharacterSpeed;
 
@@ -22,6 +22,7 @@ public class GameLogic : MonoBehaviour
     {
         DiagonalCharacterSpeed = Mathf.Sqrt(CharacterSpeed * CharacterSpeed + CharacterSpeed * CharacterSpeed) /2f;
         NetworkedClientProcessing.SetGameLogic(this);
+        currentCharacterVelocityInPercent = Vector2.zero;
 
         circleTexture = Resources.Load<Sprite>("Circle");
     }
@@ -69,8 +70,12 @@ public class GameLogic : MonoBehaviour
         }
         /* characterPositionInPercent += (characterVelocityInPercent * Time.deltaTime);*/
 
-        if (characterVelocityInPercent != Vector2.zero)
-            NetworkedClientProcessing.SendNewPositionToServer(characterVelocityInPercent);
+        if (characterVelocityInPercent != currentCharacterVelocityInPercent)
+        {
+            currentCharacterVelocityInPercent = characterVelocityInPercent;
+            NetworkedClientProcessing.SendNewPositionToServer(currentCharacterVelocityInPercent);
+        }
+
     }
 
     public void ApplyMovementFromServer(Vector2 positionChange, int characterID)

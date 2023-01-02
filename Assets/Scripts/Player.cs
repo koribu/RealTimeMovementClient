@@ -6,5 +6,6 @@ public struct Player
 {
     public Vector2 posInPercent;
     public GameObject avatar;
+    public Vector2 velocity;
 
 }
